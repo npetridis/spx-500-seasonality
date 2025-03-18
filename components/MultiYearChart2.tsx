@@ -85,12 +85,17 @@ export function MultiYearChart({
 }: MultiYearChartProps) {
   // State for tracking which years are visible
   const [activeYears, setActiveYears] = useState<Record<string, boolean>>({});
-  const [chartData, setChartData] = useState({
+  const [chartData, setChartData] = useState<{
+    labels: number[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    datasets: any[];
+  }>({
     labels: [],
     datasets: [],
   });
 
   // Ref for the chart instance
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const chartRef = useRef<any>(null);
 
   // State for crosshair positions
@@ -217,7 +222,7 @@ export function MultiYearChart({
         color: "rgba(255, 255, 255, 0.9)",
         font: {
           size: 16,
-          weight: "600",
+          weight: "normal",
         },
       },
       tooltip: {
@@ -284,12 +289,12 @@ export function MultiYearChart({
       datalabels: {
         align: "right",
         anchor: "end",
-        backgroundColor: function (context) {
+        backgroundColor: function () {
           return "rgba(15, 23, 42, 0.7)"; // Semi-transparent dark background
         },
         borderRadius: 4,
         color: function (context) {
-          return context.dataset.borderColor;
+          return context.dataset.borderColor as string;
         },
         font: {
           weight: "bold",
@@ -357,7 +362,8 @@ export function MultiYearChart({
         },
         ticks: {
           color: "rgba(255, 255, 255, 0.7)",
-          callback: (value) => value.toFixed(1),
+          callback: (value) =>
+            typeof value === "number" ? value.toFixed(1) : value,
         },
         // Add a grid line at 1.0 (no change)
         // grid: {

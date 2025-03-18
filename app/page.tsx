@@ -52,6 +52,8 @@ export default async function YearToDatePage() {
     const availableYears = getAvailableYears(sp500Data);
     const processedData = processYearlyDataForComparison(groupedData);
 
+    console.log("Available Years:", availableYears);
+
     return (
       <div className="flex flex-col items-center">
         <h1 className="text-3xl font-bold mb-4 text-center ">

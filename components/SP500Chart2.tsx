@@ -37,7 +37,11 @@ interface SP500ChartProps {
 
 export function SP500Chart({ data }: SP500ChartProps) {
   // Use state to ensure chart renders only on client
-  const [chartData, setChartData] = useState({
+  const [chartData, setChartData] = useState<{
+    labels: string[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    datasets: any[];
+  }>({
     labels: [],
     datasets: [],
   });
@@ -78,7 +82,7 @@ export function SP500Chart({ data }: SP500ChartProps) {
         labels: {
           color: "rgba(255, 255, 255, 0.7)",
           font: {
-            weight: "500",
+            weight: "lighter",
           },
         },
       },
@@ -88,7 +92,7 @@ export function SP500Chart({ data }: SP500ChartProps) {
         color: "rgba(255, 255, 255, 0.9)",
         font: {
           size: 16,
-          weight: "600",
+          weight: "normal",
         },
       },
       tooltip: {

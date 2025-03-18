@@ -1,7 +1,7 @@
 import { MultiYearChart } from "@/components/MultiYearChart2";
 import {
   formatFredData,
-  getAvailableYears,
+  // getAvailableYears,
   groupDataByYear,
   processYearlyDataForComparison,
 } from "@/lib/utils";
@@ -49,7 +49,7 @@ export default async function YearToDatePage() {
   try {
     const sp500Data = await getSP500Data();
     const groupedData = groupDataByYear(sp500Data);
-    const availableYears = getAvailableYears(sp500Data);
+    // const availableYears = getAvailableYears(sp500Data);
     const processedData = processYearlyDataForComparison(groupedData);
 
     return (

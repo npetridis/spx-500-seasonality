@@ -37,7 +37,24 @@ interface YTDChartProps {
 }
 
 export function YTDChart({ data, year }: YTDChartProps) {
-  const [chartData, setChartData] = useState({
+  const [chartData, setChartData] = useState<{
+    labels: string[];
+    datasets: {
+      label: string;
+      data: number[];
+      borderColor: string;
+      backgroundColor: string;
+      borderWidth: number;
+      tension: number;
+      pointBackgroundColor: string;
+      pointBorderColor: string;
+      pointHoverBackgroundColor: string;
+      pointHoverBorderColor: string;
+      pointRadius: number;
+      pointHoverRadius: number;
+      fill: boolean;
+    }[];
+  }>({
     labels: [],
     datasets: [],
   });
@@ -88,7 +105,7 @@ export function YTDChart({ data, year }: YTDChartProps) {
         labels: {
           color: "rgba(255, 255, 255, 0.7)",
           font: {
-            weight: "500",
+            weight: "lighter",
           },
         },
       },
@@ -98,7 +115,7 @@ export function YTDChart({ data, year }: YTDChartProps) {
         color: "rgba(255, 255, 255, 0.9)",
         font: {
           size: 16,
-          weight: "600",
+          weight: "bolder",
         },
       },
       tooltip: {
@@ -131,11 +148,11 @@ export function YTDChart({ data, year }: YTDChartProps) {
       y: {
         grid: {
           color: "rgba(255, 255, 255, 0.1)",
-          drawZero: true,
+          // drawZero: true,
         },
         ticks: {
           color: "rgba(255, 255, 255, 0.7)",
-          callback: (value) => `${value.toFixed(2)}%`,
+          callback: (value) => `${Number(value).toFixed(2)}%`,
         },
         suggestedMin: Math.min(...data.map((d) => d.value), 0) - 5,
         suggestedMax: Math.max(...data.map((d) => d.value), 0) + 5,

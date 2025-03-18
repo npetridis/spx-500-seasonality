@@ -81,7 +81,11 @@ export function MultiYearChart({
 }: MultiYearChartProps) {
   // State for tracking which years are visible
   const [activeYears, setActiveYears] = useState<Record<string, boolean>>({});
-  const [chartData, setChartData] = useState({
+  const [chartData, setChartData] = useState<{
+    labels: number[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    datasets: any[];
+  }>({
     labels: [],
     datasets: [],
   });
@@ -160,7 +164,7 @@ export function MultiYearChart({
         color: "rgba(255, 255, 255, 0.9)",
         font: {
           size: 16,
-          weight: "600",
+          weight: "normal",
         },
       },
       tooltip: {

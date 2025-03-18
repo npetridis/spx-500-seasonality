@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -5,8 +6,8 @@ import Chart from "chart.js/auto";
 import "chartjs-adapter-date-fns";
 
 export default function SP500Chart() {
-  const chartRef = useRef(null);
-  const chartInstance = useRef(null);
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
+  const chartInstance = useRef<Chart | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -24,8 +25,8 @@ export default function SP500Chart() {
 
         // Process the data
         const chartData = data.observations
-          .filter((item) => item.value !== ".")
-          .map((item) => ({
+          .filter((item: { value: string }) => item.value !== ".")
+          .map((item: { date: string | number | Date; value: string }) => ({
             x: new Date(item.date),
             y: parseFloat(item.value),
           }));
@@ -34,19 +35,19 @@ export default function SP500Chart() {
         setIsLoading(false);
       } catch (err) {
         console.error("Error fetching S&P 500 data:", err);
-        setError(err.message);
+        setError((err as any)?.message);
         setIsLoading(false);
       }
     };
 
-    const createChart = (data) => {
+    const createChart = (data: any) => {
       if (chartInstance.current) {
-        chartInstance.current.destroy();
+        (chartInstance.current as any)?.destroy();
       }
 
-      const ctx = chartRef.current.getContext("2d");
+      const ctx = chartRef.current?.getContext("2d");
 
-      chartInstance.current = new Chart(ctx, {
+      chartInstance.current = new Chart(ctx!, {
         type: "line",
         data: {
           datasets: [
@@ -113,7 +114,7 @@ export default function SP500Chart() {
 
     return () => {
       if (chartInstance.current) {
-        chartInstance.current.destroy();
+        (chartInstance.current as Chart).destroy();
       }
     };
   }, []);
